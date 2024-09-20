@@ -2,8 +2,8 @@
 "use client"
 import React, { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-
-export default function Component() {
+import Image from 'next/image';
+export default function HomePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [cursorVariant, setCursorVariant] = useState("default");
@@ -69,16 +69,21 @@ export default function Component() {
       />
 
       <header className="flex justify-between items-center p-8 relative z-40">
-        <motion.div 
-          className="text-xl font-bold tracking-wider"
+        <motion.div
+          className="text-3xl font-bold tracking-wider"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.8 }}
         >
-          Quantechbit®
+          <Image
+            src="/images/qtb_logo.png"
+            alt="Quantechbit Logo"
+            width={150}
+            height={80}
+          />
         </motion.div>
-        <button 
-          onClick={() => setIsMenuOpen(!isMenuOpen)} 
+        <button
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
           className="z-50 p-2"
           onMouseEnter={() => setCursorVariant("hover")}
           onMouseLeave={() => setCursorVariant("default")}
@@ -92,14 +97,14 @@ export default function Component() {
 
       <AnimatePresence>
         {isMenuOpen && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
             className="fixed inset-0 bg-white z-30"
           >
-            <motion.nav 
+            <motion.nav
               className="flex flex-col justify-center items-center h-full"
               variants={containerVariants}
               initial="hidden"
@@ -122,27 +127,30 @@ export default function Component() {
         )}
       </AnimatePresence>
 
-      <motion.main 
-        className="flex flex-col justify-center items-start p-8 mt-20"
+      <motion.main
+        className="flex flex-col justify-items-end content-end p-8 mt-20 "
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
+        transition={{ duration: 0.3, delay: 0.3 }}
       >
-        <h1 className="text-6xl sm:text-7xl md:text-8xl font-light leading-tight mb-8">
-          Designing the<br />future today
+        <h1 className="text-6xl sm:text-7xl md:text-8xl align-bottom text-center font-semibold font-sans leading-tight mb-12 mt-12">
+        Crafting tomorrow's<br/> vision,today.
         </h1>
-        <p className="text-xl md:text-2xl font-light mb-12">
-          We move brands to their<br />next chapter.
+        <p className="text-xl md:text-2xl align-bottom text-center  font-semibold font-sans leading-tight mb-12">
+          We move brands to our<br />next chapter.
         </p>
-        <motion.div 
-          className="w-8 h-8 rounded-full border-2 border-black flex items-center justify-center"
-          animate={{ y: [0, 10, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5 }}
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-4 h-4">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </svg>
-        </motion.div>
+        {/* Center the content here */}
+        <div className="flex justify-center items-center w-full">
+          <motion.div
+            className="w-10 h-10 rounded-full border-2 border-black flex items-center justify-center"
+            animate={{ y: [0, 12, 0] }}
+            transition={{ repeat: Infinity, duration: 1.5 }}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-4 h-4">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+          </motion.div>
+        </div>
       </motion.main>
     </div>
   )
