@@ -1,14 +1,14 @@
-
 "use client"
-import React, { useState, useEffect, useRef } from 'react'
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import Spline from '@splinetool/react-spline';
+import Footer from './footer_section';
+
 export default function HomePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [cursorVariant, setCursorVariant] = useState("default");
-  const menuRef = useRef(null);
   const { scrollYProgress } = useScroll();
   
   // Hero 1 - Zoom Out Animation
@@ -16,6 +16,7 @@ export default function HomePage() {
 
   // Hero 2 - Zoom In Animation
   const sectionZoomIn = useTransform(scrollYProgress, [0.5, 1], [0.5, 1]);
+
   useEffect(() => {
     const updateCursorPosition = (e: MouseEvent) => {
       setCursorPosition({ x: e.clientX, y: e.clientY });
@@ -68,117 +69,116 @@ export default function HomePage() {
 
   return (
     <div className="bg-white text-black min-h-screen font-sans overflow-hidden cursor-none ">
-     <section className= 'h-screen'>
-     <motion.div
-        className="fixed w-8 h-8 rounded-full pointer-events-none z-50"
-        variants={cursorVariants}
-        animate={cursorVariant}
-        transition={{ type: "spring", stiffness: 500, damping: 28 }}
-      />
-      <header className="flex justify-between items-center p-8 relative z-40">
+      <section className='h-screen relative'>
         <motion.div
-          className="text-3xl font-bold tracking-wider"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <Image
-            src="/images/qtb_logo.png"
-            alt="Quantechbit Logo"
-            width={150}
-            height={80}
-          />
-        </motion.div>
-        <button
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="z-50 p-2"
-          onMouseEnter={() => setCursorVariant("hover")}
-          onMouseLeave={() => setCursorVariant("default")}
-          aria-label="Toggle menu"
-        >
-          <span className={`block w-6 h-0.5 bg-black mb-1.5 transition-transform ${isMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
-          <span className={`block w-6 h-0.5 bg-black mb-1.5 transition-opacity ${isMenuOpen ? 'opacity-0' : ''}`}></span>
-          <span className={`block w-6 h-0.5 bg-black transition-transform ${isMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
-        </button>
-      </header>
-
-      <AnimatePresence>
-        {isMenuOpen && (
+          className="fixed w-8 h-8 rounded-full pointer-events-none z-50"
+          variants={cursorVariants}
+          animate={cursorVariant}
+          transition={{ type: "spring", stiffness: 500, damping: 28 }}
+        />
+        <header className="flex justify-between items-center p-8 relative z-40">
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-            className="fixed inset-0 bg-white z-30"
+            className="text-3xl font-bold tracking-wider"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
           >
-            <motion.nav
-              className="flex flex-col justify-center items-center h-full"
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
+            <Image
+              src="/images/qtb_logo.png"
+              alt="Quantechbit Logo"
+              width={150}
+              height={80}
+            />
+          </motion.div>
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="z-50 p-2"
+            onMouseEnter={() => setCursorVariant("hover")}
+            onMouseLeave={() => setCursorVariant("default")}
+            aria-label="Toggle menu"
+          >
+            <span className={`block w-6 h-0.5 bg-black mb-1.5 transition-transform ${isMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
+            <span className={`block w-6 h-0.5 bg-black mb-1.5 transition-opacity ${isMenuOpen ? 'opacity-0' : ''}`}></span>
+            <span className={`block w-6 h-0.5 bg-black transition-transform ${isMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
+          </button>
+        </header>
+
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              className="fixed inset-0 bg-white z-30"
             >
-              {menuItems.map((item, index) => (
-                <motion.a
-                  key={index}
-                  href="#"
-                  className="text-5xl mb-4 hover:opacity-50 transition-opacity"
-                  variants={itemVariants}
-                  onMouseEnter={() => setCursorVariant("hover")}
-                  onMouseLeave={() => setCursorVariant("default")}
-                >
-                  {item}
-                </motion.a>
-              ))}
-            </motion.nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              <motion.nav
+                className="flex flex-col justify-center items-center h-full"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+              >
+                {menuItems.map((item, index) => (
+                  <motion.a
+                    key={index}
+                    href="#"
+                    className="text-5xl mb-4 hover:opacity-50 transition-opacity"
+                    variants={itemVariants}
+                    onMouseEnter={() => setCursorVariant("hover")}
+                    onMouseLeave={() => setCursorVariant("default")}
+                  >
+                    {item}
+                  </motion.a>
+                ))}
+              </motion.nav>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-      <motion.main
-        className="flex flex-col justify-items-end content-end p-8 mt-20 "
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, delay: 0.3 }}
-      >
-        <h1 className="text-6xl sm:text-7xl md:text-8xl align-bottom text-center font-semibold font-sans leading-tight mb-12 mt-12">
-        Crafting tomorrow's<br/> vision,today.
-        </h1>
-        <p className="text-xl md:text-3xl align-bottom text-center text-blue-800 font-semibold font-sans leading-tight mb-12">
-          We move brands to our next chapter.
-        </p>
-        {/* Center the content here */}
-        <div className="flex justify-center items-center w-full">
-          <motion.div
-            className="w-10 h-10 rounded-full border-2 border-black flex items-center justify-center"
-            animate={{ y: [0, 12, 0] }}
-            transition={{ repeat: Infinity, duration: 1.5 }}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-4 h-4">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-            </svg>
-          </motion.div>
-        </div>
-      </motion.main>
-      
-     </section>
-      <section className="min-h-screen flex justify-center items-center bg-white">
-    <motion.div
-      style={{ scale: sectionZoomIn }}
-      className="w-full h-full flex justify-center items-center"
-    >
-         {/* <iframe
-            src="https://prod.spline.design/KEl6xFuNgXTAaKZY/scene.splinecode"
-            frameBorder="0"
-            width="100%"
-            height="100%"
-          ></iframe> */}
-      <div >
-            <Spline  
-           scene="https://prod.spline.design/KEl6xFuNgXTAaKZY/scene.splinecode"></Spline>
-        </div>
-    </motion.div>
-  </section>
+        <motion.main
+          className="flex flex-col justify-items-end content-end p-8 mt-20"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.3 }}
+        >
+          <h1 className="text-6xl sm:text-4xl md:text-5xl align-center text-center font-semibold font-sans leading-tight mb-12 ">
+            Crafting tomorrows<br/> vision, today.
+          </h1>
+          <p className="text-xl md:text-3xl align-bottom text-center text-blue-800 font-semibold font-sans leading-tight mb-12">
+            We move brands to our next chapter.
+          </p>
+          {/* Center the content here */}
+          <div className="flex justify-center items-center w-full">
+            <motion.div
+              className="w-10 h-10 rounded-full border-2 border-black flex items-center justify-center"
+              animate={{ y: [0, 12, 0] }}
+              transition={{ repeat: Infinity, duration: 1.5 }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-4 h-4">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+              </svg>
+            </motion.div>
+          </div>
+        </motion.main>
+        {/* Add a spacer or margin to push the next section down */}
+        <div className="absolute bottom-0 left-0 w-full h-12 bg-white" />
+      </section>
+
+      {/* Second section with Spline */}
+      <section className="w-full h-screen flex justify-center items-center bg-white">
+        <motion.div
+          style={{ scale: sectionZoomIn }}
+          className="w-full h-full flex justify-center items-center"
+        >
+          <div className="w-full h-full">
+            <Spline
+              scene="https://prod.spline.design/KEl6xFuNgXTAaKZY/scene.splinecode"
+              style={{ width: '100%', height: '100%' }}
+            />
+          </div>
+        </motion.div>
+      </section>
+      <Footer/>
     </div>
-    
-  )
+  );
 }
