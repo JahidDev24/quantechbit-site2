@@ -1,14 +1,21 @@
 
 "use client"
 import React, { useState, useEffect, useRef } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image';
+import Spline from '@splinetool/react-spline';
 export default function HomePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [cursorVariant, setCursorVariant] = useState("default");
   const menuRef = useRef(null);
+  const { scrollYProgress } = useScroll();
+  
+  // Hero 1 - Zoom Out Animation
+  const splineZoomOut = useTransform(scrollYProgress, [0, 0.5], [1, 0.5]); // Scaling effect on scroll
 
+  // Hero 2 - Zoom In Animation
+  const sectionZoomIn = useTransform(scrollYProgress, [0.5, 1], [0.5, 1]);
   useEffect(() => {
     const updateCursorPosition = (e: MouseEvent) => {
       setCursorPosition({ x: e.clientX, y: e.clientY });
@@ -60,14 +67,14 @@ export default function HomePage() {
   };
 
   return (
-    <div className="bg-white text-black min-h-screen font-sans overflow-hidden cursor-none">
-      <motion.div
+    <div className="bg-white text-black min-h-screen font-sans overflow-hidden cursor-none ">
+     <section className= 'h-screen'>
+     <motion.div
         className="fixed w-8 h-8 rounded-full pointer-events-none z-50"
         variants={cursorVariants}
         animate={cursorVariant}
         transition={{ type: "spring", stiffness: 500, damping: 28 }}
       />
-
       <header className="flex justify-between items-center p-8 relative z-40">
         <motion.div
           className="text-3xl font-bold tracking-wider"
@@ -136,8 +143,8 @@ export default function HomePage() {
         <h1 className="text-6xl sm:text-7xl md:text-8xl align-bottom text-center font-semibold font-sans leading-tight mb-12 mt-12">
         Crafting tomorrow's<br/> vision,today.
         </h1>
-        <p className="text-xl md:text-2xl align-bottom text-center  font-semibold font-sans leading-tight mb-12">
-          We move brands to our<br />next chapter.
+        <p className="text-xl md:text-3xl align-bottom text-center text-blue-800 font-semibold font-sans leading-tight mb-12">
+          We move brands to our next chapter.
         </p>
         {/* Center the content here */}
         <div className="flex justify-center items-center w-full">
@@ -152,6 +159,26 @@ export default function HomePage() {
           </motion.div>
         </div>
       </motion.main>
+      
+     </section>
+      <section className="min-h-screen flex justify-center items-center bg-white">
+    <motion.div
+      style={{ scale: sectionZoomIn }}
+      className="w-full h-full flex justify-center items-center"
+    >
+         {/* <iframe
+            src="https://prod.spline.design/KEl6xFuNgXTAaKZY/scene.splinecode"
+            frameBorder="0"
+            width="100%"
+            height="100%"
+          ></iframe> */}
+      <div >
+            <Spline  
+           scene="https://prod.spline.design/KEl6xFuNgXTAaKZY/scene.splinecode"></Spline>
+        </div>
+    </motion.div>
+  </section>
     </div>
+    
   )
 }
