@@ -10,9 +10,10 @@ export default function HomePage() {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [cursorVariant, setCursorVariant] = useState("default");
   const { scrollYProgress } = useScroll();
-  
-  // Hero 1 - Zoom Out Animation
-  const splineZoomOut = useTransform(scrollYProgress, [0, 0.5], [1, 0.5]); // Scaling effect on scroll
+
+// Hero 1 - Zoom Out Animation
+const splineZoomOut = useTransform(scrollYProgress, [0, 1], [1, 0.75]); // Scaling from 100% to 75%
+
 
   // Hero 2 - Zoom In Animation
   const sectionZoomIn = useTransform(scrollYProgress, [0.5, 1], [0.5, 1]);
@@ -136,21 +137,20 @@ export default function HomePage() {
         </AnimatePresence>
 
         <motion.main
-          className="flex flex-col justify-items-end content-end p-8 mt-20"
+          className="flex flex-col justify-center items-center p-8  min-h-screen"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, delay: 0.3 }}
         >
-          <h1 className="text-6xl sm:text-4xl md:text-5xl align-center text-center font-semibold font-sans leading-tight mb-12 ">
-            Crafting tomorrows<br/> vision, today.
+          <h1 className="text-5xl sm:text-5xl md:text-5xl lg:text-7xl text-center font-semibold font-sans leading-tight mb-12">
+            Crafting tomorrow's<br /> vision, today.
           </h1>
-          <p className="text-xl md:text-3xl align-bottom text-center text-blue-800 font-semibold font-sans leading-tight mb-12">
+          <p className="text-lg sm:text-xl md:text-2xl lg:text-4xl text-center text-blue-800 font-semibold font-sans leading-tight mb-12">
             We move brands to our next chapter.
           </p>
-          {/* Center the content here */}
           <div className="flex justify-center items-center w-full">
             <motion.div
-              className="w-10 h-10 rounded-full border-2 border-black flex items-center justify-center"
+              className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-black flex items-center justify-center"
               animate={{ y: [0, 12, 0] }}
               transition={{ repeat: Infinity, duration: 1.5 }}
             >
@@ -160,25 +160,30 @@ export default function HomePage() {
             </motion.div>
           </div>
         </motion.main>
-        {/* Add a spacer or margin to push the next section down */}
-        <div className="absolute bottom-0 left-0 w-full h-12 bg-white" />
-      </section>
 
-      {/* Second section with Spline */}
-      <section className="w-full h-screen flex justify-center items-center bg-white">
-        <motion.div
-          style={{ scale: sectionZoomIn }}
-          className="w-full h-full flex justify-center items-center"
+  
+      
+    {/* Add a spacer or margin to push the next section down */ }
+    < div className = "absolute bottom-0 left-0 w-full h-12 bg-white" />
+      </section >
+
+    {/* Second section with Spline */ }
+    < section className = "w-full h-screen flex justify-center items-center bg-slate-100" >
+      <motion.div
+          style={{ scale: splineZoomOut }}
+          className="w-full h-screen flex justify-center items-center"
         >
-          <div className="w-full h-full">
+          {/* <div className="w-full h-full">
             <Spline
               scene="https://prod.spline.design/KEl6xFuNgXTAaKZY/scene.splinecode"
               style={{ width: '100%', height: '100%' }}
             />
-          </div>
-        </motion.div>
-      </section>
-      <Footer/>
-    </div>
+          </div> */}
+           <Footer/> 
+        </motion.div> 
+     
+      </section >
+     
+    </div >
   );
 }
