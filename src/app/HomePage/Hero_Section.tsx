@@ -137,12 +137,12 @@ const splineZoomOut = useTransform(scrollYProgress, [0, 1], [1, 0.75]); // Scali
         </AnimatePresence>
 
         <motion.main
-          className="flex flex-col justify-center items-center p-8  min-h-screen"
+          className="flex flex-col justify-start items-center p-8  min-h-screen"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, delay: 0.3 }}
         >
-          <h1 className="text-5xl sm:text-5xl md:text-5xl lg:text-7xl text-center font-semibold font-sans leading-tight mb-12">
+          <h1 className="text-5xl sm:text-3xl md:text-4xl lg:text-7xl text-center font-semibold font-sans leading-tight mb-14 mt-3">
             Crafting tomorrow's<br /> vision, today.
           </h1>
           <p className="text-lg sm:text-xl md:text-2xl lg:text-4xl text-center text-blue-800 font-semibold font-sans leading-tight mb-12">
