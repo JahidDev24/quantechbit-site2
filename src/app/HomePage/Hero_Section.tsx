@@ -1,22 +1,18 @@
 "use client"
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
-import Spline from '@splinetool/react-spline';
 import Footer from './footer_section';
 
 export default function HomePage() {
+  const [isLargeScreen, setIsLargeScreen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [cursorVariant, setCursorVariant] = useState("default");
   const { scrollYProgress } = useScroll();
 
 // Hero 1 - Zoom Out Animation
-const splineZoomOut = useTransform(scrollYProgress, [0, 1], [1, 0.75]); // Scaling from 100% to 75%
-
-
-  // Hero 2 - Zoom In Animation
-  const sectionZoomIn = useTransform(scrollYProgress, [0.5, 1], [0.5, 1]);
+const splineZoomOut = useTransform(scrollYProgress, [0, 1], [1, 0.9]); // Scaling from 100% to 75%
 
   useEffect(() => {
     const updateCursorPosition = (e: MouseEvent) => {
@@ -28,6 +24,27 @@ const splineZoomOut = useTransform(scrollYProgress, [0, 1], [1, 0.75]); // Scali
     return () => {
       window.removeEventListener('mousemove', updateCursorPosition);
     };
+  
+  }, []);
+
+  useEffect(() => {
+    // Function to check the screen width
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsLargeScreen(true); // Enable transition for larger screens (tablets, laptops)
+      } else {
+        setIsLargeScreen(false); // Disable transition for smaller screens (mobile)
+      }
+    };
+
+    // Initial check
+    handleResize();
+
+    // Add resize event listener
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup listener on unmount
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const cursorVariants = {
@@ -168,21 +185,18 @@ const splineZoomOut = useTransform(scrollYProgress, [0, 1], [1, 0.75]); // Scali
       </section >
 
     {/* Second section with Spline */ }
-    < section className = "w-full h-screen flex justify-center items-center bg-slate-100" >
+    <section className="w-full h-screen flex flex-col justify-between items-center bg-slate-100">
       <motion.div
-          style={{ scale: splineZoomOut }}
-          className="w-full h-screen flex justify-center items-center"
-        >
-          {/* <div className="w-full h-full">
-            <Spline
-              scene="https://prod.spline.design/KEl6xFuNgXTAaKZY/scene.splinecode"
-              style={{ width: '100%', height: '100%' }}
-            />
-          </div> */}
-           <Footer/> 
-        </motion.div> 
-     
-      </section >
+        style={isLargeScreen ? { scale: splineZoomOut } : {}}
+        className="w-full h-screen flex justify-center items-center"
+      >
+        <Footer />
+
+      </motion.div>
+      <div className="text-center text-gray-500 p-4">
+    Copyright © 2023 Designed & Developed by <a href="https://quantechbit.com" className="text-blue-600 hover:underline">Quantechbit</a>
+  </div>
+    </section>
      
     </div >
   );
