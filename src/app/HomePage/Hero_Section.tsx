@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import Footer from './footer_section';
+import EnhancedAnimatedTestimonialSlider from './testomorial';
 
 export default function HomePage() {
   const [isLargeScreen, setIsLargeScreen] = useState(false);
@@ -12,7 +13,7 @@ export default function HomePage() {
   const { scrollYProgress } = useScroll();
 
 // Hero 1 - Zoom Out Animation
-const splineZoomOut = useTransform(scrollYProgress, [0, 1], [1, 0.9]); // Scaling from 100% to 75%
+const splineZoomOut = useTransform(scrollYProgress, [0, 1], [1, 0.85]); // Scaling from 100% to 75%
 
   useEffect(() => {
     const updateCursorPosition = (e: MouseEvent) => {
@@ -183,17 +184,19 @@ const splineZoomOut = useTransform(scrollYProgress, [0, 1], [1, 0.9]); // Scalin
     {/* Add a spacer or margin to push the next section down */ }
     < div className = "absolute bottom-0 left-0 w-full h-12 bg-white" />
       </section >
-
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+      <EnhancedAnimatedTestimonialSlider />
+    </div>
     {/* Second section with Spline */ }
     <section className="w-full h-screen flex flex-col justify-between items-center bg-slate-100">
       <motion.div
         style={isLargeScreen ? { scale: splineZoomOut } : {}}
-        className="w-full h-screen flex justify-center items-center"
+        className=" h-screen  flex justify-center items-center"
       >
         <Footer />
 
       </motion.div>
-      <div className="text-center text-gray-500 p-4">
+      <div className="text-center text-gray-500 p-4 pb-2">
     Copyright © 2023 Designed & Developed by <a href="https://quantechbit.com" className="text-blue-600 hover:underline">Quantechbit</a>
   </div>
     </section>

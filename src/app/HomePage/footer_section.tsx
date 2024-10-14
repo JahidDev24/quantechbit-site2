@@ -63,7 +63,7 @@ const Footer = () => {
 
 
   return (
-    <div className="h-full w-full bg-blue-100 p-6 md:p-12 sm:p-2 rounded-lg shadow-lg">
+    <div className="h-full w-full bg-blue-100 p-6 md:p-12 sm:p-2 lg:p-14 lg:m-14 align-middle rounded-lg shadow-lg">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
         {/* Contact Form Section */}
         <div>
