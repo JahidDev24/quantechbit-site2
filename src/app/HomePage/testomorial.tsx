@@ -1,127 +1,110 @@
-'use client'
+"use client"
 
-import { useState, useEffect, useCallback } from 'react'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { useState } from "react"
+import { ArrowLeft, ArrowRight } from "lucide-react"
+import Image from "next/image"
+import { motion, AnimatePresence } from "framer-motion"
+import { faQuoteLeftAlt } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 const testimonials = [
   {
     id: 1,
-    image: "/images/boy.jpg",
-    quote: "Your work is going to fill a large part of your life, and the only way to be truly satisfied is to do what you believe is great work. And the only way to do great work is to love what you do.",
-    author: "Steve Jobs"
+    name: "John Smith",
+    role: "UI Designer",
+    image: "/images/boy.jpg?height=48&width=48",
+    quote: "Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches organically bring to the table win-win survival strategies to ensure proactive domination. At the end of the day, going forward.",
   },
   {
     id: 2,
-    image: "/images/boy.jpg",
-    quote: "The only way to do great work is to love what you do. If you haven't found it yet, keep looking. Don't settle.",
-    author: "Steve Jobs"
+    name: "Emma Johnson",
+    role: "Product Manager",
+    image: "/images/boy.jpg?height=48&width=48",
+    quote: "Bring to the table win-win survival strategies to ensure proactive domination. At the end of the day, going forward, a new normal that has evolved from generation X is on the runway heading towards a streamlined cloud solution.",
   },
   {
     id: 3,
-    image: "https://picsum.photos/800/600?random=3",
-    quote: "Your time is limited, don't waste it living someone else's life. Don't be trapped by dogma, which is living the result of other people's thinking.",
-    author: "Steve Jobs"
-  }
+    name: "Michael Brown",
+    role: "Software Engineer",
+    image: "/images/boy.jpg?height=48&width=48",
+    quote: "Capitalize on low hanging fruit to identify a ballpark value added activity to beta test. Override the digital divide with additional clickthroughs from DevOps. Nanotechnology immersion along the information highway will close the loop on focusing solely on the bottom line.",
+  },
 ]
 
-export default function EnhancedAnimatedTestimonialSlider() {
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [isAnimating, setIsAnimating] = useState(false)
+export default function Testomorial() {
+  const [currentTestimonial, setCurrentTestimonial] = useState(0)
 
-  const changeTestimonial = useCallback((index: number) => {
-    if (!isAnimating) {
-      setIsAnimating(true)
-      setCurrentIndex(index)
-    }
-  }, [isAnimating])
+  const nextTestimonial = () => {
+    setCurrentTestimonial((prev) => (prev + 1) % testimonials.length)
+  }
 
-  const nextTestimonial = useCallback(() => {
-    changeTestimonial((currentIndex + 1) % testimonials.length)
-  }, [currentIndex, changeTestimonial])
-
-  const prevTestimonial = useCallback(() => {
-    changeTestimonial((currentIndex - 1 + testimonials.length) % testimonials.length)
-  }, [currentIndex, changeTestimonial])
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsAnimating(false)
-    }, 500) // Match this with the CSS transition duration
-
-    return () => clearTimeout(timer)
-  }, [currentIndex])
-
-  useEffect(() => {
-    const autoPlayTimer = setInterval(() => {
-      nextTestimonial()
-    }, 5000) // Change testimonial every 5 seconds
-
-    return () => clearInterval(autoPlayTimer)
-  }, [nextTestimonial])
+  const prevTestimonial = () => {
+    setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length)
+  }
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 py-8 bg-white">
-      <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-800">WHAT PEOPLE SAY...</h2>
-      <div className="relative bg-gray-100 rounded-lg overflow-hidden shadow-lg border"> {/* Added border for debugging */}
-        <div className="relative w-full h-96"> {/* Fixed height */}
-          {testimonials.map((testimonial, index) => (
-            <div
-              key={testimonial.id}
-              className={`absolute inset-0 w-full h-full transition-all duration-500 ease-in-out ${
-                index === currentIndex
-                  ? 'opacity-100 translate-x-0 z-10'  // Set z-10 for active
-                  : index < currentIndex
-                  ? 'opacity-0 -translate-x-full z-0'
-                  : 'opacity-0 translate-x-full z-0'
-              }`}
-            >
-              <img
-                src={testimonial.image}
-                alt={`Testimonial ${index + 1}`}
-                className="object-cover w-full h-full"
-              />
-              <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-end">
-                <div className="w-full md:w-1/2 p-4 md:p-8 text-white">
-                  <div className="bg-gray-900 bg-opacity-75 p-4 md:p-6 rounded-lg">
-                    <p className="text-sm md:text-lg mb-4 leading-relaxed transition-opacity duration-300 ease-in-out">
-                      {testimonial.quote}
-                    </p>
-                    <p className="text-right text-sm md:text-base transition-opacity duration-300 ease-in-out">
-                      — {testimonial.author}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
+    <section className="bg-white py-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      <div className="max-w-5xl mx-auto">
+        <div className="bg-[#f0faf0] px-4 py-2 inline-block rounded-full mb-1">
+          <span className="text-sm font-semibold text-green-800">TESTIMONIAL</span>
+          <div className="w-10 h-0.5 bg-black rounded-full pl-4"></div>
         </div>
-        <button
-          className="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow-md hover:bg-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-          onClick={prevTestimonial}
-          aria-label="Previous testimonial"
-        >
-          <ChevronLeft className="h-6 w-6 text-gray-800" />
-        </button>
-        <button
-          className="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow-md hover:bg-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-          onClick={nextTestimonial}
-          aria-label="Next testimonial"
-        >
-          <ChevronRight className="h-6 w-6 text-gray-800" />
-        </button>
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-          {testimonials.map((_, index) => (
-            <button
-              key={index}
-              className={`w-3 h-3 rounded-full transition-colors duration-200 ${
-                index === currentIndex ? 'bg-white' : 'bg-gray-400'
-              }`}
-              onClick={() => changeTestimonial(index)}
-              aria-label={`Go to testimonial ${index + 1}`}
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
+          <div>
+            <h2 className="text-3xl sm:text-5xl font-semibold text-gray-900 mb-6">
+              Check what our clients Say about us
+            </h2>
+            <div className="relative">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentTestimonial}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <div className="text-3xl text-red-500 absolute -top-2 -left-3"> <FontAwesomeIcon icon={faQuoteLeftAlt}  /></div>
+                  <p className="text-gray-600 mb-6 ml-6 mt-3 relative z-10">
+                    {testimonials[currentTestimonial].quote}
+                  </p>
+                  <div className="flex items-center">
+                    <Image
+                      src={testimonials[currentTestimonial].image}
+                      alt={testimonials[currentTestimonial].name}
+                      width={48}
+                      height={48}
+                      className="rounded-full mr-4"
+                    />
+                    <div>
+                      <h3 className="font-semibold text-red-500">{testimonials[currentTestimonial].name}</h3>
+                      <p className="text-gray-600">{testimonials[currentTestimonial].role}</p>
+                    </div>
+                    <div className="ml-auto">
+                      <button className="p-2 bg-gray-100 rounded-full mr-2" onClick={prevTestimonial}>
+                        <ArrowLeft className="w-5 h-5 text-gray-600" />
+                      </button>
+                      <button className="p-2 bg-gray-100 rounded-full" onClick={nextTestimonial}>
+                        <ArrowRight className="w-5 h-5 text-gray-600" />
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
+          <div className="relative">
+            <div className="absolute inset-0 bg-gray-900 rounded-full transform -rotate-6"></div>
+            <Image
+              src="/images/boy.jpg"
+              alt="Person working at desk"
+              width={400}
+              height={250}
+              className="rounded-full relative z-10"
             />
-          ))}
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   )
 }

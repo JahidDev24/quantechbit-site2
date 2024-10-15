@@ -1,9 +1,10 @@
 "use client"
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import Footer from './footer_section';
-import EnhancedAnimatedTestimonialSlider from './testomorial';
+
+import Testimonial from './testomorial';
 
 export default function HomePage() {
   const [isLargeScreen, setIsLargeScreen] = useState(false);
@@ -85,9 +86,40 @@ const splineZoomOut = useTransform(scrollYProgress, [0, 1], [1, 0.85]); // Scali
       opacity: 1,
     },
   };
+// for testomorial
 
+
+const testimonialRef = useRef<HTMLDivElement>(null); 
+
+const [isFullyVisible, setIsFullyVisible] = useState(false);
+
+
+  // Adjust the scroll speed based on visibility
+  const adjustedScrollYProgress = useTransform(scrollYProgress, [0, 1], [0, isFullyVisible ? 0.33 : 1]);// Slow down to 1/3 speed
+
+  // Define transformations for the testimonial component
+  const x = useTransform(adjustedScrollYProgress, [0.2, 0.4,0.5, 0.6, 0.8], ['-100%', '0%','0%', '0%', '100%']);
+  const opacity = useTransform(adjustedScrollYProgress, [0.2, 0.4, 0.6, 0.8], [0, 1, 1, 0]);
+  const scale = useTransform(adjustedScrollYProgress, [0.2, 0.4, 0.6, 0.8], [0.8, 1, 1, 0.8]);
+
+  // Slow down the scroll effect in the view range
+  const slowScroll = useTransform(adjustedScrollYProgress, [0.4, 0.6], [0, 1]); // Adjusts the scale to create a slowdown effect
+  useEffect(() => {
+    const handleScroll = () => {
+      if (testimonialRef.current) {
+        const { top, bottom } = testimonialRef.current.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+
+        // Check if the component is fully in view
+        setIsFullyVisible(top >= 0 && bottom <= windowHeight);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
   return (
-    <div className="bg-white text-black min-h-screen font-sans overflow-hidden cursor-none ">
+    <div className="bg-white text-black min-h-screen font-sans overflow-hidden">
       <section className='h-screen relative'>
         <motion.div
           className="fixed w-8 h-8 rounded-full pointer-events-none z-50"
@@ -184,9 +216,36 @@ const splineZoomOut = useTransform(scrollYProgress, [0, 1], [1, 0.85]); // Scali
     {/* Add a spacer or margin to push the next section down */ }
     < div className = "absolute bottom-0 left-0 w-full h-12 bg-white" />
       </section >
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-      <EnhancedAnimatedTestimonialSlider />
-    </div>
+
+
+     <motion.div
+      ref={testimonialRef}
+      style={{
+        x: x,
+        opacity: opacity,
+        scale: scale,
+        position: 'relative', // Ensure proper stacking
+      }}
+      transition={{ duration: 5 }} // Correct transition definition
+      className="testimonial-container bg-white p-8 shadow-lg rounded-lg"
+    >
+      <Testimonial />
+      {/* Overlay to slow down scrolling effect */}
+      <motion.div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          pointerEvents: 'none', // Allow clicks to pass through
+          scale: slowScroll, // Scale to create slow-down effect
+          backgroundColor: 'rgba(255, 255, 255, 0)', // Optional: To make the overlay invisible
+        }}
+      />
+    </motion.div>
+
+    
     {/* Second section with Spline */ }
     <section className="w-full h-screen flex flex-col justify-between items-center bg-slate-100">
       <motion.div
