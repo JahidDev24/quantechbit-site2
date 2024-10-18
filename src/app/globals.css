@@ -25,3 +25,38 @@ body {
     text-wrap: balance;
   }
 }
+
+/* styles/globals.css */
+
+.carousel-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  max-width: 80vw;
+  height: 400px;
+  overflow: hidden;
+}
+
+.carousel-item {
+  width: 150px;
+  height: 250px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: all 0.5s ease-in-out;
+}
+
+.carousel-active {
+  width: 250px;
+  height: 400px;
+  position: relative;
+  z-index: 10;
+}
+
+.carousel-inactive {
+  opacity: 0.5;
+  width: 150px;
+  height: 250px;
+}

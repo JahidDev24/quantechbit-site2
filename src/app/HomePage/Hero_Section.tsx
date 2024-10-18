@@ -3,8 +3,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import Footer from './footer_section';
-
 import Testimonial from './testomorial';
+import ProjectSection from './Project_section';
 
 export default function HomePage() {
   const [isLargeScreen, setIsLargeScreen] = useState(false);
@@ -217,7 +217,7 @@ const [isFullyVisible, setIsFullyVisible] = useState(false);
     < div className = "absolute bottom-0 left-0 w-full h-12 bg-white" />
       </section >
 
-
+      <ProjectSection/>
      <motion.div
       ref={testimonialRef}
       style={{
